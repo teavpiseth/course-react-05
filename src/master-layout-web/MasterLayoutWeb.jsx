@@ -1,13 +1,16 @@
-import HeaderWeb from './HeaderWeb'
-import FooterWeb from './FooterWeb'
-import { Outlet } from 'react-router'
+import HeaderWeb from "./HeaderWeb";
+import FooterWeb from "./FooterWeb";
+import { Outlet } from "react-router";
+import React from "react";
 
-export default function MasterLayoutWeb() {
+const MasterLayoutWeb = React.memo(function MasterLayoutWeb() {
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", overflow: "hidden" }}>
       <HeaderWeb />
-        <Outlet />
+      <Outlet />
       <FooterWeb />
     </div>
-  )
-}
+  );
+});
+
+export default MasterLayoutWeb;

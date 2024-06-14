@@ -5,15 +5,14 @@ import DetailPage from "./master-layout-web/DetailPage";
 import MasterLayoutWeb from "./master-layout-web/MasterLayoutWeb";
 
 function App() {
-
   return (
     <>
       {/* <UseMemoComponent /> */}
       <BrowserRouter>
         <Routes>
-          <Route element={<MasterLayoutWeb/>}>
-            <Route path="/home" element={<HomePageWeb></HomePageWeb>} />
-            <Route path="/detail" element={<DetailPage/>} />
+          <Route element={<MasterLayoutWeb />}>
+            <Route path="/" element={<HomePageWeb></HomePageWeb>} />
+            <Route path="/detail" element={<DetailPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

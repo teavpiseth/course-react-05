@@ -6,39 +6,38 @@ import {
 import { Col, Row } from "antd";
 import React from "react";
 
-function FooterWebMemo() {
+const FooterWeb = React.memo(function FooterWeb() {
   return (
     <div
       style={{
         background: "rgb(246, 249, 252)",
-        padding: "10px 0",
+        padding: "10px",
         marginTop: 80,
       }}
     >
       <div style={{ maxWidth: 1200, margin: "auto" }}>
-        <Row gutter={[16, 16]}>
-          <Col className="gutter-row" span={16}>
+        <Row>
+          <Col xs={24} sm={24} md={19} className="mb-4">
             <h3>QUICKLINKS</h3>
+            <Row>
+              <Col xs={12} sm={6}>
+                <div>Lorem Ipsum</div>
+              </Col>
+              <Col xs={12} sm={6}>
+                <div>Lorem Ipsum</div>
+              </Col>
+              <Col xs={12} sm={6}>
+                <div>Lorem Ipsum</div>
+              </Col>
+              <Col xs={12} sm={6}>
+                <div>Lorem Ipsum</div>
+              </Col>
+            </Row>
           </Col>
 
-          <Col className="gutter-row" span={4}>
+          <Col xs={24} sm={24} md={5}>
             <h3>FOLLOW US</h3>
-          </Col>
-        </Row>
-        <Row gutter={[16, 16]}>
-          <Col className="gutter-row" span={4}>
-            <div>Lorem Ipsum</div>
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <div>Lorem Ipsum</div>
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <div>Lorem Ipsum</div>
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <div>Lorem Ipsum</div>
-          </Col>
-          <Col className="gutter-row" span={4}>
+
             <div>
               <FacebookOutlined /> Lorem Ipsum
             </div>
@@ -63,7 +62,6 @@ function FooterWebMemo() {
       </div>
     </div>
   );
-}
+});
 
-const FooterWeb = React.memo(FooterWebMemo);
 export default FooterWeb;

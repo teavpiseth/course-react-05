@@ -7,13 +7,12 @@ import Slide4 from "./image-slide/slide4.jpg";
 import Small1 from "./image-slide/small1.jpg";
 import Small2 from "./image-slide/small2.jpg";
 import "./slide.css";
-
-export default function Slide() {
+const Slide = React.memo(function Slide() {
   return (
-    <div>
+    <div className="slide-web-style">
       <div style={{ maxWidth: 1100, margin: "auto" }}>
-        <Row gutter={16}>
-          <Col className="gutter-row" span={18}>
+        <Row>
+          <Col xs={24} sm={14} md={18}>
             <Carousel autoplay>
               <div>
                 <div style={{ maxHeight: 300 }}>
@@ -53,7 +52,7 @@ export default function Slide() {
               </div>
             </Carousel>
           </Col>
-          <Col className="gutter-row" span={6}>
+          <Col xs={24} sm={8} md={6}>
             <Carousel autoplay>
               <div>
                 <div style={{ maxHeight: 300 }}>
@@ -79,4 +78,6 @@ export default function Slide() {
       </div>
     </div>
   );
-}
+});
+
+export default Slide;
