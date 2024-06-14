@@ -1,17 +1,25 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import image1 from "../images/user/man/28.jpg";
+import "./image.css";
+import PropTypes from 'prop-types';
 
-export function Image({ name, image }) {
-  for (let index = 0; index < 100000000; index++) {}
+function Image({ name , image }) {
+  // for (let index = 0; index < 1000000000; index++) {}
   console.log("component image");
   return (
-    <>
-      <p style={{ backgroundColor: "black", color: "#fff" }}>Name: {name}</p>
+    <div className="component-image">
+      
+      <p style={{ color: "#fff" }} className="font-bold">Name: {name}</p>
       <br></br>
       <img onClick={() => alert("hi")} src={image} alt="man" />
-    </>
+      <span>Description: description product</span>
+    </div>
   );
+}
+
+Image.propTypes = {
+  name: PropTypes.string,
+  image: PropTypes.node
 }
 
 export const MemorizeImage = React.memo(Image);

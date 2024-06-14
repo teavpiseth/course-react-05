@@ -1,0 +1,15 @@
+.component-image{
+    box-shadow: 0 0 3px #ccc;
+    width: 300px;
+    text-align: center;
+}
+.component-image p{
+    background-color: #3a69b4;
+}
+
+.component-image img{
+    width: fit-content;
+    margin: auto;
+    display: block;
+    margin-bottom: 20px;
+}

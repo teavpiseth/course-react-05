@@ -1,0 +1,4 @@
+.ant-carousel .slick-dots li button::after{
+    background: rgb(20, 65, 148);
+    margin: 2px;
+  }
