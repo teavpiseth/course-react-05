@@ -1,9 +1,27 @@
-import { HomeOutlined, PhoneOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  HomeOutlined,
+  MailOutlined,
+  PhoneOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Button, Col, Input, Menu, Row, Space } from "antd";
 import React from "react";
 import Logo from "./logo.jpg";
 import { Link } from "react-router-dom";
 
+const items = [
+  {
+    label: "Home",
+    key: "home",
+    icon: <HomeOutlined />,
+  },
+  {
+    label: "Detail",
+    key: "detail",
+  },
+];
 function HeaderWebMemo() {
   return (
     <>
@@ -78,6 +96,14 @@ function HeaderWebMemo() {
       </div>
       <div style={{ backgroundColor: "#144194", marginBottom: 25 }}>
         <Menu
+          className="menu-style"
+          style={{ backgroundColor: "#144194", maxWidth: 1000, margin: "auto" }}
+          onClick={() => {}}
+          mode="horizontal"
+          items={items}
+        />
+        ;
+        {/* <Menu
           mode="horizontal"
           style={{ backgroundColor: "#144194", maxWidth: 1000, margin: "auto" }}
         >
@@ -98,7 +124,7 @@ function HeaderWebMemo() {
           >
             Contact
           </Menu.Item>
-        </Menu>
+        </Menu> */}
       </div>
     </>
   );

@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import HomePageWeb from "./master-layout-web/HomePageWeb";
-import DetailPage from "./master-layout-web/DetailPage";
+import HomePageWeb from "./pages/web/HomePageWeb";
+import DetailPage from "./pages/web/DetailPage";
 import MasterLayoutWeb from "./master-layout-web/MasterLayoutWeb";
+import PageNotFound from "./components/pageNotFound/PageNotFound";
+import CategoryWeb from "./pages/web/CategoryWeb";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
           <Route element={<MasterLayoutWeb />}>
             <Route path="/" element={<HomePageWeb></HomePageWeb>} />
             <Route path="/detail" element={<DetailPage />} />
+            <Route path="/category" element={<CategoryWeb></CategoryWeb>} />
+            <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,6 @@
-import Slide from "./Slide";
-import Category from "./Category";
-import Product from "./Product";
+import Slide from "../../master-layout-web/Slide";
+import Category from "../../master-layout-web/Category";
+import Product from "../../master-layout-web/Product";
 import React, { useEffect, useState } from "react";
 
 const HomePageWeb = React.memo(function HomePageWeb() {
@@ -23,6 +23,7 @@ const HomePageWeb = React.memo(function HomePageWeb() {
         console.error("Error:", error);
       });
   }, []);
+
   return (
     <div style={{ width: "100%" }}>
       <Slide />
