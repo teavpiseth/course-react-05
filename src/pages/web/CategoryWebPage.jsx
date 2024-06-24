@@ -1,85 +1,11 @@
-import ProductCard from "@/components/ProductCard";
 import { Card, Col, Menu, Row } from "antd";
 import Meta from "antd/es/card/Meta";
-import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import useCategoryPage from "./useCtPage";
+import React from "react";
 
-const _items = [
-  {
-    key: "sub1",
-    label: "Apple",
-  },
-  {
-    key: "2",
-    label: "Nokai",
-  },
-];
+const CategoryWebPage = React.memo(function CategoryWebPage() {
+  const { product, items } = useCategoryPage();
 
-const CategoryWeb = React.memo(function CategoryWeb() {
-  const [category, setCategory] = useState([]);
-  const [items, setItems] = useState(_items);
-  const [searchParams] = useSearchParams();
-  const cateId = searchParams.get("cate-id");
-  const [product, setProduct] = useState([]);
-
-  function handleItem(category) {
-    return category
-      .filter((cate) => cate?.ParentsId === Number(cateId))
-      .map((cateItem) => {
-        return {
-          key: cateItem?.Name,
-          label: cateItem?.Name,
-        };
-      });
-  }
-
-  useEffect(() => {
-    fetch("https://piseth.site/api/web/category/get-list?")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Data:", data);
-        const _category = data?.list;
-        setCategory(_category);
-        setItems(handleItem(_category));
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.error("Error:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (category?.length > 0) {
-      fetch(
-        "https://piseth.site/api/web/product/get-list?pageSize=10&page=1&groupCategory=15"
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // console.log("Data:", data);
-          setProduct(data?.list);
-        })
-        .catch((error) => {
-          // Handle any errors
-          console.error("Error:", error);
-        });
-    }
-  }, [category]);
-
-  //   console.log(
-  //     cateId,
-  //     category?.filter((cate) => cate?.ParentsId === Number(cateId)),
-  //     category
-  //   );
   return (
     <div style={{ maxWidth: 1100, margin: "auto", padding: 20 }}>
       <Row>
@@ -188,4 +114,4 @@ const CategoryWeb = React.memo(function CategoryWeb() {
   );
 });
 
-export default CategoryWeb;
+export default CategoryWebPage;

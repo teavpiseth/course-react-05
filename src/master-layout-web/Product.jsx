@@ -1,25 +1,19 @@
 import { Card, Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import Meta from "antd/es/card/Meta";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Product = React.memo(function Product() {
   const [product, setProduct] = useState([]);
   useEffect(() => {
-    fetch("https://piseth.site/api/web/product/get-list?pageSize=10&page=1")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // console.log("Data:", data);
-        setProduct(data?.list);
-      })
-      .catch((error) => {
-        // Handle any errors
-        console.error("Error:", error);
-      });
+    axios({
+      method: "get",
+      url: "https://piseth.site/api/web/product/get-list?pageSize=10&page=1",
+    }).then(function (response) {
+      console.log(response);
+      setProduct(response.data.list);
+    });
   }, []);
   return (
     <div style={{ maxWidth: 1100, margin: "auto", padding: 20 }}>
@@ -32,7 +26,7 @@ const Product = React.memo(function Product() {
               span={6}
               style={{ textAlign: "center", marginBottom: 15 }}
             >
-              <a href="/detail">
+              <Link to="/detail" state={pro}>
                 <Card
                   className="animate__animated animate__fadeInLeft"
                   hoverable
@@ -106,7 +100,7 @@ const Product = React.memo(function Product() {
                     {pro?.Description}
                   </span>
                 </Card>
-              </a>
+              </Link>
             </Col>
           );
         })}

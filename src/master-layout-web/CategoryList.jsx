@@ -1,9 +1,27 @@
 import CategoryCard from "@/components/CategoryCard";
+import {
+  WebContext,
+  useWebContext,
+} from "@/contextProvider/webContext/WebContext";
 import { Col, Row, Skeleton } from "antd";
-import React from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Category = React.memo(function Category({ categoryList }) {
+const CategoryList = React.memo(function CategoryList() {
+  const { categoryList, setCategoryList } = useWebContext();
+  // const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "https://piseth.site/api/web/category/get-list?",
+    }).then(function (response) {
+      console.log(response);
+      setCategoryList(response.data.list);
+    });
+  }, []);
+
   const list = categoryList?.filter((cate) => cate?.ParentsId === 0);
   return (
     <div style={{ maxWidth: 1100, margin: "auto", padding: 20 }}>
@@ -87,4 +105,4 @@ const Category = React.memo(function Category({ categoryList }) {
   );
 });
 
-export default Category;
+export default CategoryList;

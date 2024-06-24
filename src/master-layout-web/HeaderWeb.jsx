@@ -41,18 +41,20 @@ function HeaderWebMemo() {
       <div style={{ padding: 10 }}>
         <Row style={{ alignItems: "center" }}>
           <Col xs={24} sm={12} md={6} lg={6}>
-            <img
-              style={{
-                margin: "auto",
-                maxWidth: 150,
-                borderRadius: 25,
-                cursor: "pointer",
-                marginBottom: 10,
-              }}
-              src={Logo}
-              alt="logo"
-              onClick={() => {}}
-            />
+            <Link to={"/"}>
+              <img
+                style={{
+                  margin: "auto",
+                  maxWidth: 150,
+                  borderRadius: 25,
+                  cursor: "pointer",
+                  marginBottom: 10,
+                }}
+                src={Logo}
+                alt="logo"
+                onClick={() => {}}
+              />
+            </Link>
           </Col>
           <Col xs={24} sm={12} md={12} lg={12}>
             <Space.Compact
