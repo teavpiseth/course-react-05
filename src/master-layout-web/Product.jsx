@@ -2,18 +2,20 @@ import { Card, Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import Meta from "antd/es/card/Meta";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import baseService from "@/services/BaseService";
 
 const Product = React.memo(function Product() {
   const [product, setProduct] = useState([]);
+
+  async function fetchProduct() {
+    const data = await baseService.get(
+      "https://piseth.site/api/web/product/get-list?pageSize=10&page=1"
+    );
+
+    setProduct(data.list);
+  }
   useEffect(() => {
-    axios({
-      method: "get",
-      url: "https://piseth.site/api/web/product/get-list?pageSize=10&page=1",
-    }).then(function (response) {
-      console.log(response);
-      setProduct(response.data.list);
-    });
+    fetchProduct();
   }, []);
   return (
     <div style={{ maxWidth: 1100, margin: "auto", padding: 20 }}>

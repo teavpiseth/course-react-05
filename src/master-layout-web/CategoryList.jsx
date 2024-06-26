@@ -1,25 +1,21 @@
-import CategoryCard from "@/components/CategoryCard";
-import {
-  WebContext,
-  useWebContext,
-} from "@/contextProvider/webContext/WebContext";
+import { useWebContext } from "@/contextProvider/webContext/WebContext";
 import { Col, Row, Skeleton } from "antd";
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import baseService from "@/services/BaseService";
 
 const CategoryList = React.memo(function CategoryList() {
   const { categoryList, setCategoryList } = useWebContext();
   // const [categoryList, setCategoryList] = useState([]);
 
+  async function fetchCategory() {
+    const data = await baseService.get(
+      "https://piseth.site/api/web/category/get-list"
+    );
+    setCategoryList(data.list);
+  }
   useEffect(() => {
-    axios({
-      method: "get",
-      url: "https://piseth.site/api/web/category/get-list?",
-    }).then(function (response) {
-      console.log(response);
-      setCategoryList(response.data.list);
-    });
+    fetchCategory();
   }, []);
 
   const list = categoryList?.filter((cate) => cate?.ParentsId === 0);
