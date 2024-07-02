@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import {
   DesktopOutlined,
   FileOutlined,
@@ -7,7 +7,8 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Outlet, useNavigate } from "react-router";
+import { Navigate, Outlet, useNavigate } from "react-router";
+import LocalStorage from "@/utils/LocalStorage";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -29,7 +30,7 @@ const items = [
     getItem("Add Role Permission", "/dashboard/addRolePermission"),
     getItem("Access Key", "/dashboard/accesskey"),
   ]),
-  getItem("Logout", "/dashboard/login", <FileOutlined />),
+  getItem("Logout", "/login", <FileOutlined />),
 ];
 
 const MasterLayoutDashboard = React.memo(function MasterLayoutDashboard() {
@@ -38,6 +39,29 @@ const MasterLayoutDashboard = React.memo(function MasterLayoutDashboard() {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  // useLayoutEffect(() => {
+  //   if (!LocalStorage.getUser()) {
+  //     return navigate("/login");
+  //   }
+  // }, []);
+  useEffect(() => {
+    if (!LocalStorage.getUser()) {
+      navigate("/login");
+    }
+  }, []);
+
+  if (!LocalStorage.getUser()) {
+    return <div></div>;
+  }
+
+  function onChangeMenuHandle(value) {
+    if (value.key?.includes("login")) {
+      LocalStorage.clearUser();
+    }
+    navigate(value.key);
+  }
+
   return (
     <Layout
       style={{
@@ -55,7 +79,7 @@ const MasterLayoutDashboard = React.memo(function MasterLayoutDashboard() {
           defaultSelectedKeys={["1"]}
           mode="inline"
           items={items}
-          onClick={(value) => navigate(value.key)}
+          onClick={(value) => onChangeMenuHandle(value)}
         />
       </Sider>
       <Layout>

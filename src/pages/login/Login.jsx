@@ -1,22 +1,29 @@
-import React from "react";
-import { Button, Checkbox, Form, Input } from "antd";
+import React, { useState } from "react";
+import { Button, Checkbox, Form, Input, message } from "antd";
 import styles from "./login.module.scss";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import LoginService from "./LoginService";
+import LocalStorage from "@/utils/LocalStorage";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    console.log("Success:", values);
-
+    // console.log("Success:", values);
+    setIsLoading(true);
     const res = await LoginService.login(values);
+    setIsLoading(false);
     if (!res?.error) {
-      navigate("/dashboard");
+      LocalStorage.setUserInfo(res);
+      return navigate("/dashboard");
     }
+
+    message.error(res?.message, [2]);
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
+
   return (
     <>
       <div className={styles.wrapLogin}>
@@ -85,7 +92,12 @@ const Login = () => {
                 span: 16,
               }}
             >
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={isLoading}
+                loading={isLoading}
+              >
                 Submit
               </Button>
             </Form.Item>

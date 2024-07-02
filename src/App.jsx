@@ -8,15 +8,18 @@ import CategoryWeb from "./pages/web/CategoryWebPage";
 import { WebProvider } from "./contextProvider/webContext/WebProvider";
 import MasterLayoutDashboard from "./master-layout-dashboard/MasterLayoutDashboard";
 import Login from "./pages/login/Login";
+import Employee from "./pages/dashboard/employee/Employee";
 
 function App() {
+  // console.log(<Login />);
   return (
     <>
       {/* <UseMemoComponent /> */}
-
+      {/* <UseRef /> */}
       <WebProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/login" element={<Login />}></Route>
             <Route element={<MasterLayoutDashboard />}>
               <Route
                 path="/dashboard"
@@ -26,19 +29,16 @@ function App() {
                 path="/dashboard/customer"
                 element={<div>Hello, welcome customer page</div>}
               />
-              <Route
-                path="/dashboard/employee"
-                element={<div>Hello, employee role</div>}
-              />
-              <Route path="*" element={<PageNotFound />} />
+              <Route path="/dashboard/employee" element={<Employee />} />
+              <Route path="/dashboard/*" element={<PageNotFound />} />
             </Route>
+
             <Route element={<MasterLayoutWeb />}>
               <Route path="/" element={<HomePageWeb></HomePageWeb>} />
               <Route path="/detail" element={<DetailPage />} />
               <Route path="/category" element={<CategoryWeb></CategoryWeb>} />
               <Route path="*" element={<PageNotFound />} />
             </Route>
-            <Route path="/dashboard/login" element={<Login />}></Route>
           </Routes>
         </BrowserRouter>
       </WebProvider>
