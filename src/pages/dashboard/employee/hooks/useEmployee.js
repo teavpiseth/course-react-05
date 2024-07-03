@@ -1,29 +1,18 @@
 import { Space, Tag } from "antd";
+import { useEffect, useState } from "react";
+import Employee from "../Employee";
+import EmployeeService from "../EmployeeService";
 
 export function useEmployee() {
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      tags: ["nice", "developer"],
-    },
-    {
-      key: "2",
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      tags: ["loser"],
-    },
-    {
-      key: "3",
-      name: "Joe Black",
-      age: 32,
-      address: "Sydney No. 1 Lake Park",
-      tags: ["cool", "teacher"],
-    },
-  ];
+  // const data = [];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    EmployeeService.getList().then((result) => {
+      // console.log(result);
+      setData(result.list);
+    });
+  }, []);
   return {
     data,
   };

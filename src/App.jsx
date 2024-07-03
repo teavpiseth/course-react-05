@@ -9,6 +9,7 @@ import { WebProvider } from "./contextProvider/webContext/WebProvider";
 import MasterLayoutDashboard from "./master-layout-dashboard/MasterLayoutDashboard";
 import Login from "./pages/login/Login";
 import Employee from "./pages/dashboard/employee/Employee";
+import "@/services/AxiosInterceptor";
 
 function App() {
   // console.log(<Login />);

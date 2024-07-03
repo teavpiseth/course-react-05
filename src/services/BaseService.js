@@ -1,3 +1,4 @@
+import LocalStorage from "@/utils/LocalStorage";
 import { message } from "antd";
 import axios from "axios";
 
@@ -7,7 +8,10 @@ class BaseService {
       method: method,
       url: url,
       data: data,
-      headers: extraHeaders,
+      headers: {
+        authorization: `bearer ${LocalStorage.getAccessToken()}`,
+        ...extraHeaders,
+      },
       ...extraConfig,
     };
     try {
