@@ -5,8 +5,9 @@ const ApiUrl = {
 };
 
 class EmployeeService {
-  async getList() {
-    const res = await baseService.get(ApiUrl.getList);
+  async getList(search = "") {
+    const _search = search ? `&search=${search}` : "";
+    const res = await baseService.get(ApiUrl.getList + _search);
     return res;
   }
 }

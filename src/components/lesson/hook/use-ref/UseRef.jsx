@@ -5,6 +5,7 @@ function UseRef() {
   const count = useRef(0);
   const inputRef = useRef(null);
   const [red, setRed] = useState(true);
+  const listDataRef = useRef(null);
 
   function countHandle() {
     count.current = count.current + 1;
@@ -15,8 +16,11 @@ function UseRef() {
   useEffect(() => {
     count.current = 1;
     setRed(!red);
-    inputRef.current.focus();
-    inputRef.current.style.borderRadius = "10px";
+    // inputRef.current.focus();
+    // inputRef.current.style.borderRadius = "10px";
+
+    const childElements = listDataRef.current.querySelector(".list-27");
+    childElements.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
 
   const ListData = [];
@@ -34,8 +38,8 @@ function UseRef() {
       <br />
       <br />
       {/* <input type="text" id="myInput" /> */}
-      {/* <div ref={inputRef}>{ListData}</div> */}
-      <UseRefInput ref={inputRef} />
+      <div ref={listDataRef}>{ListData}</div>
+      {/* <UseRefInput ref={inputRef} /> */}
     </div>
   );
 }

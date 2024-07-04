@@ -8,9 +8,11 @@ class Authorization {
       refreshToken: localStorage.getItem("refreshToken"),
     });
     if (res?.errors || !res) {
-      console.log("logout");
+      // console.log("logout");
+      window.location.replace("/login");
+      window.location.reload();
     } else {
-      LocalStorage.setUserInfo(res);
+      LocalStorage.setUserInfo({ ...res, user: res.data.data });
     }
   }
 }
