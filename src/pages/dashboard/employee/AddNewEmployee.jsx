@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import EmployeeService from "./EmployeeService";
+import { status } from "@/utils/constant";
+import moment from "moment";
+import LocalStorage from "@/utils/LocalStorage";
 
-const AddNewEmployee = ({ isOpen, setIsOpen }) => {
+const AddNewEmployee = ({ isOpen, setIsOpen, gender }) => {
+  const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState([]);
+
+  const createBy = LocalStorage.getUser()?.id;
   const handleOk = () => {
     setIsOpen(false);
   };
@@ -14,6 +20,19 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
 
   function onFinish(value) {
     console.log(value);
+    const formData = new FormData();
+    let _value = {
+      ...value,
+      dob: value.dob.format("YYYY-MM-DD"),
+      createBy: createBy,
+    };
+
+    for (const key in _value) {
+      formData.append(key, _value[key]);
+    }
+    EmployeeService.create(formData).then((res) => {
+      console.log(res);
+    });
   }
   function onFinishFailed() {}
 
@@ -22,11 +41,27 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
     // console.table(res);
     setRole(res.list);
   }
+
+  // const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      // setImage(e.target.files[0]);
+      form.setFieldsValue({ image: e.target.files[0] });
+      setPreviewUrl(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
   useEffect(() => {
     if (isOpen) {
-      getRoleList();
+      if (role.length === 0) {
+        getRoleList();
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, role]);
+
+  // const customFormat = (value) => moment(value).format("DD/MM/YYYY");
   return (
     <>
       <Modal
@@ -36,6 +71,7 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
         onCancel={handleCancel}
       >
         <Form
+          form={form}
           name="basic"
           labelCol={{
             span: 8,
@@ -76,7 +112,7 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
               },
             ]}
           >
-            <Input.Password />
+            <Input />
           </Form.Item>
           <Form.Item
             label="Status"
@@ -89,8 +125,13 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
             ]}
           >
             <Select placeholder="Select Status" allowClear>
-              <Select.Option value="Active">Active</Select.Option>
-              <Select.Option value="Inactive">Inactive</Select.Option>
+              {status?.map((obj) => {
+                return (
+                  <Select.Option key={obj.value} value={obj.value}>
+                    {obj.name}
+                  </Select.Option>
+                );
+              })}
             </Select>
           </Form.Item>
 
@@ -105,15 +146,19 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
             ]}
           >
             <Select placeholder="Select Gender" allowClear>
-              <Select.Option value="Active">Male</Select.Option>
-              <Select.Option value="Female">Female</Select.Option>
-              <Select.Option value="Other">Other</Select.Option>
+              {gender?.map((obj) => {
+                return (
+                  <Select.Option key={obj.value} value={obj.value}>
+                    {obj.label}
+                  </Select.Option>
+                );
+              })}
             </Select>
           </Form.Item>
 
           <Form.Item
             label="Role"
-            name="role"
+            name="roleId"
             rules={[
               {
                 required: true,
@@ -147,7 +192,7 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
 
           <Form.Item
             label="Phone number"
-            name="phoneNumber"
+            name="tel"
             rules={[
               {
                 required: true,
@@ -186,7 +231,16 @@ const AddNewEmployee = ({ isOpen, setIsOpen }) => {
             <Input />
           </Form.Item>
           <Form.Item label="Image" name={"image"} rules={[{ required: true }]}>
-            <Input />
+            {<input type="file" onChange={handleImageChange} />}
+            <div>
+              {previewUrl && (
+                <img
+                  src={previewUrl}
+                  alt="Preview"
+                  style={{ maxWidth: "300px" }}
+                />
+              )}
+            </div>
           </Form.Item>
           <Form.Item
             wrapperCol={{

@@ -89,7 +89,7 @@ const Employee = () => {
           </Button>
         </Col>
       </Row>
-      <AddNewEmployee isOpen={isOpenAddNew} setIsOpen={setIsOpenAddNew} />
+      <AddNewEmployee isOpen={isOpenAddNew} setIsOpen={setIsOpenAddNew} gender={gender.current} />
       <Table columns={columns} dataSource={data} />
     </>
   );
