@@ -1,38 +1,19 @@
 import React from "react";
-import { Space, Table, Tag } from "antd";
+import { Button, Col, Row, Space, Table, Tag } from "antd";
 import { useEmployee } from "./hooks/useEmployee";
 import moment from "moment";
 import StringUtil from "@/utils/string";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import useDebounce from "@/hooks/useDebound";
+import AddNewEmployee from "./AddNewEmployee";
 const { Search } = Input;
-// {
-//   "Id": 5,
-//   "RoleId": 1,
-//   "FirstName": "Seng",
-//   "LastName": "Ratha test",
-//   "Gender": 0,
-//   "Dob": "2000-01-02T05:00:00.000Z",
-//   "Tel": "0121111",
-//   "Email": "test@gmail.com",
-//   "Address": "51h Phnom penh",
-//   "Status": 1,
-//   "Image": "image-1711442466416-737201407.jpg",
-//   "Salary": "0.00",
-//   "Password": "$2b$10$eyCZi0TNk1bMGnXRkzQn.ukwd467CCkT3TuRjeJoCVlKzsi4p.Qga",
-//   "CreateAt": "2024-02-14T04:14:52.000Z",
-//   "CreateBy": 1,
-//   "UpdateAt": "2024-04-18T19:58:39.000Z",
-//   "UpdateBy": 8,
-//   "RoleName": "Admin",
-//   "password": ""
-// }
 
 const Employee = () => {
-  const { data, gender, fetchData } = useEmployee();
+  const { data, gender, fetchData, isOpenAddNew, setIsOpenAddNew } =
+    useEmployee();
   //  useDebounce();
-  const debounce = useDebounce;
+  const debounce = useDebounce();
   // console.log(useDebounce(() => "test"));
   const columns = [
     {
@@ -94,11 +75,21 @@ const Employee = () => {
   ];
   return (
     <>
-      <Search
-        placeholder="Search name"
-        onChange={(e) => debounce(() => fetchData(e.target.value), 500)()}
-        loading={false}
-      />
+      <Row className="!justify-between">
+        <Col>
+          <Search
+            placeholder="Search name"
+            onChange={(e) => debounce(() => fetchData(e.target.value), 500)}
+            loading={false}
+          />
+        </Col>
+        <Col>
+          <Button type="primary" onClick={() => setIsOpenAddNew(true)}>
+            Add New
+          </Button>
+        </Col>
+      </Row>
+      <AddNewEmployee isOpen={isOpenAddNew} setIsOpen={setIsOpenAddNew} />
       <Table columns={columns} dataSource={data} />
     </>
   );

@@ -7,6 +7,7 @@ export function useEmployee() {
   // const data = [];
   const gender = useRef([]);
   const [data, setData] = useState([]);
+  const [isOpenAddNew, setIsOpenAddNew] = useState(false);
 
   const fetchData = async (search = "") => {
     const result = await EmployeeService.getList(search);
@@ -20,6 +21,8 @@ export function useEmployee() {
   return {
     data,
     gender,
-    fetchData
+    fetchData,
+    isOpenAddNew,
+    setIsOpenAddNew,
   };
 }

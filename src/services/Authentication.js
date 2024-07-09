@@ -9,8 +9,9 @@ class Authorization {
     });
     if (res?.errors || !res) {
       // console.log("logout");
-      window.location.replace("/login");
-      window.location.reload();
+      window.location.href = "/login";
+      // window.location.replace("/login");
+      // window.location.reload();
     } else {
       LocalStorage.setUserInfo({ ...res, user: res.data.data });
     }

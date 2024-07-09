@@ -36,7 +36,11 @@ axios.interceptors.response.use(
   },
   async function (error) {
     const config = error.config;
-    if (error.response.status === 401 && !config?._isRetry) {
+    if (
+      error.response.status === 401 &&
+      !config?._isRetry &&
+      config.url.includes("refreshToken") === false
+    ) {
       await Authorization.refreshToken();
       if (
         config.headers.Authorization !==
