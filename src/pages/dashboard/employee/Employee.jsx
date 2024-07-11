@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Row, Space, Table, Tag } from "antd";
 import { useEmployee } from "./hooks/useEmployee";
 import moment from "moment";
@@ -62,7 +62,10 @@ const Employee = () => {
       render: (_, record) => (
         <Space size="middle">
           <EditOutlined
-            onClick={() => console.log(_, record)}
+            onClick={() => {
+              setDataEdit(record);
+              setIsOpenAddNew(true);
+            }}
             style={{ color: "blue", cursor: "pointer" }}
           />
           <DeleteOutlined
@@ -73,6 +76,8 @@ const Employee = () => {
       ),
     },
   ];
+
+  const [dataEdit, setDataEdit] = useState({});
   return (
     <>
       <Row className="!justify-between">
@@ -89,7 +94,12 @@ const Employee = () => {
           </Button>
         </Col>
       </Row>
-      <AddNewEmployee isOpen={isOpenAddNew} setIsOpen={setIsOpenAddNew} gender={gender.current} />
+      <AddNewEmployee
+        dataEdit={dataEdit}
+        isOpen={isOpenAddNew}
+        setIsOpen={setIsOpenAddNew}
+        gender={gender.current}
+      />
       <Table columns={columns} dataSource={data} />
     </>
   );

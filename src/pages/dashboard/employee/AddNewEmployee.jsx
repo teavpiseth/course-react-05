@@ -4,35 +4,52 @@ import EmployeeService from "./EmployeeService";
 import { status } from "@/utils/constant";
 import moment from "moment";
 import LocalStorage from "@/utils/LocalStorage";
+import StringUtil from "@/utils/string";
 
-const AddNewEmployee = ({ isOpen, setIsOpen, gender }) => {
+const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState([]);
 
   const createBy = LocalStorage.getUser()?.id;
-  const handleOk = () => {
-    setIsOpen(false);
-  };
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
+
+  const isEdit = Object.keys(dataEdit)?.length > 0;
 
   function onFinish(value) {
-    console.log(value);
     const formData = new FormData();
     let _value = {
       ...value,
       dob: value.dob.format("YYYY-MM-DD"),
-      createBy: createBy,
+      ...(isEdit === false && { createBy: createBy }),
+      ...(isEdit === true && { updateBy: createBy }),
     };
-
-    for (const key in _value) {
+    const { image, ...rest } = _value;
+    for (const key in rest) {
       formData.append(key, _value[key]);
     }
-    EmployeeService.create(formData).then((res) => {
-      console.log(res);
-    });
+
+    // if (typeof image != "string") {
+    formData.append("image", image);
+    // }
+
+    if (isEdit) {
+      formData.append("id", dataEdit?.Id);
+      setIsLoading(true);
+      EmployeeService.update(formData).then((res) => {
+        setIsLoading(false);
+        if (res) {
+          setIsOpen(false);
+        }
+      });
+    } else {
+      setIsLoading(true);
+      EmployeeService.create(formData).then((res) => {
+        setIsLoading(false);
+        if (res) {
+          setIsOpen(false);
+        }
+      });
+    }
   }
   function onFinishFailed() {}
 
@@ -54,21 +71,30 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender }) => {
   };
 
   useEffect(() => {
+    form.resetFields();
+    console.log("test");
     if (isOpen) {
       if (role.length === 0) {
         getRoleList();
       }
     }
-  }, [isOpen, role]);
+    if (isEdit) {
+      form.setFieldsValue(
+        StringUtil.pascalToCamel({ ...dataEdit, dob: moment(dataEdit.Dob) })
+      );
+    }
+    if (form.getFieldValue("image")) {
+      setPreviewUrl(form.getFieldValue("image"));
+    }
+  }, [isOpen, role, dataEdit]);
 
-  // const customFormat = (value) => moment(value).format("DD/MM/YYYY");
   return (
     <>
       <Modal
         title="Add New"
         open={isOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        footer={false}
+        onCancel={() => setIsOpen(false)}
       >
         <Form
           form={form}
@@ -223,19 +249,26 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender }) => {
           <Form.Item label="Salary" name="salary">
             <Input></Input>
           </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[{ required: true }]}
-          >
-            <Input />
-          </Form.Item>
+          {!dataEdit?.Id && (
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+          )}
+
           <Form.Item label="Image" name={"image"} rules={[{ required: true }]}>
             {<input type="file" onChange={handleImageChange} />}
             <div>
               {previewUrl && (
                 <img
-                  src={previewUrl}
+                  src={
+                    previewUrl && dataEdit?.Id
+                      ? "https://piseth.site/api/get-image/" + previewUrl
+                      : previewUrl
+                  }
                   alt="Preview"
                   style={{ maxWidth: "300px" }}
                 />
@@ -248,7 +281,12 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender }) => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button
+              disabled={isLoading}
+              type="primary"
+              htmlType="submit"
+              style={{ textAlign: "right" }}
+            >
               Submit
             </Button>
           </Form.Item>
