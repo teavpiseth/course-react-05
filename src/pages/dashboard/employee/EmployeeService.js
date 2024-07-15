@@ -1,16 +1,17 @@
 import baseService from "@/services/BaseService";
 
 const ApiUrl = {
-  getList: "https://piseth.site/api/employee/get-list?pageSize=10&page=1",
+  getList: "https://piseth.site/api/employee/get-list?",
   getRoleList: "https://piseth.site/api/role/get-list?",
   create: "https://piseth.site/api/employee/create",
   update: "https://piseth.site/api/employee/update",
+  delete: "https://piseth.site/api/employee/delete",
 };
 
 class EmployeeService {
-  async getList(search = "") {
-    const _search = search ? `&search=${search}` : "";
-    const res = await baseService.get(ApiUrl.getList + _search);
+  async getList(param) {
+    // return console.log(param);
+    const res = await baseService.get(ApiUrl.getList + param);
     return res;
   }
   async getRoleList() {
@@ -28,6 +29,10 @@ class EmployeeService {
     const res = await baseService.put(ApiUrl.update, data, {
       "Content-Type": "multipart/form-data",
     });
+    return res;
+  }
+  async delete(id) {
+    const res = await baseService.delete(ApiUrl.delete, { id });
     return res;
   }
 }

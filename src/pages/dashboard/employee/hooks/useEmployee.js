@@ -1,19 +1,54 @@
-import { Space, Tag } from "antd";
+import { Modal, Space, Tag } from "antd";
 import { useEffect, useRef, useState } from "react";
 import Employee from "../Employee";
 import EmployeeService from "../EmployeeService";
+import RouteUtil from "@/utils/RouteUtil";
 
 export function useEmployee() {
   // const data = [];
   const gender = useRef([]);
   const [data, setData] = useState([]);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [isOpenAddNew, setIsOpenAddNew] = useState(false);
+  const pagination = useRef({
+    pageSize: 5,
+    current: 1,
+    total: 7,
+  });
 
   const fetchData = async (search = "") => {
-    const result = await EmployeeService.getList(search);
-    setData(result.list);
+    const queryString = {
+      pageSize: pagination.current.pageSize,
+      page: pagination.current.current,
+      search: search,
+    };
+    const queryUrl = RouteUtil.objectToQueryString(queryString);
+    const result = await EmployeeService.getList(queryUrl);
+    pagination.current.total = result.totalRecode;
+    setData(result.list?.map((item) => ({ ...item, key: item.Id })));
+
     gender.current = result.genderMaster;
   };
+
+  function deleteEmployee(id) {
+    EmployeeService.delete(id).then((res) => {
+      if (res) {
+        fetchData();
+      }
+    });
+  }
+
+  function deleteHandle(record) {
+    const Id = record.Id;
+
+    Modal.confirm({
+      title: "Delete!",
+      content: "Are you sure?",
+      onOk() {
+        deleteEmployee(Id);
+      },
+    });
+  }
 
   useEffect(() => {
     fetchData();
@@ -24,5 +59,10 @@ export function useEmployee() {
     fetchData,
     isOpenAddNew,
     setIsOpenAddNew,
+    deleteEmployee,
+    isModalDeleteOpen,
+    setIsModalDeleteOpen,
+    deleteHandle,
+    pagination,
   };
 }

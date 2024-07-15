@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col, Row, Space, Table, Tag } from "antd";
+import { Button, Col, Row, Space, Table } from "antd";
 import { useEmployee } from "./hooks/useEmployee";
 import moment from "moment";
 import StringUtil from "@/utils/string";
@@ -10,11 +10,17 @@ import AddNewEmployee from "./AddNewEmployee";
 const { Search } = Input;
 
 const Employee = () => {
-  const { data, gender, fetchData, isOpenAddNew, setIsOpenAddNew } =
-    useEmployee();
-  //  useDebounce();
+  const {
+    data,
+    gender,
+    isOpenAddNew,
+    fetchData,
+    setIsOpenAddNew,
+    deleteHandle,
+    pagination,
+  } = useEmployee();
+
   const debounce = useDebounce();
-  // console.log(useDebounce(() => "test"));
   const columns = [
     {
       title: "First Name",
@@ -69,7 +75,7 @@ const Employee = () => {
             style={{ color: "blue", cursor: "pointer" }}
           />
           <DeleteOutlined
-            onClick={() => console.log(_, record)}
+            onClick={() => deleteHandle(record)}
             style={{ color: "red", cursor: "pointer" }}
           />
         </Space>
@@ -78,6 +84,7 @@ const Employee = () => {
   ];
 
   const [dataEdit, setDataEdit] = useState({});
+
   return (
     <>
       <Row className="!justify-between">
@@ -89,7 +96,13 @@ const Employee = () => {
           />
         </Col>
         <Col>
-          <Button type="primary" onClick={() => setIsOpenAddNew(true)}>
+          <Button
+            type="primary"
+            onClick={() => {
+              setIsOpenAddNew(true);
+              setDataEdit({});
+            }}
+          >
             Add New
           </Button>
         </Col>
@@ -99,8 +112,21 @@ const Employee = () => {
         isOpen={isOpenAddNew}
         setIsOpen={setIsOpenAddNew}
         gender={gender.current}
+        fetchList={fetchData}
       />
-      <Table columns={columns} dataSource={data} />
+
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={{
+          ...pagination.current,
+          onChange: (value) => {
+            // setPagination({ ...pagination, current: value });
+            pagination.current = { ...pagination.current, current: value };
+            fetchData();
+          },
+        }}
+      />
     </>
   );
 };

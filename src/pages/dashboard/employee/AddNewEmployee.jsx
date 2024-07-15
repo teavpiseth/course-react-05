@@ -6,7 +6,7 @@ import moment from "moment";
 import LocalStorage from "@/utils/LocalStorage";
 import StringUtil from "@/utils/string";
 
-const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit }) => {
+const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit, fetchList }) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState([]);
@@ -39,6 +39,7 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit }) => {
         setIsLoading(false);
         if (res) {
           setIsOpen(false);
+          fetchList();
         }
       });
     } else {
@@ -47,6 +48,7 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit }) => {
         setIsLoading(false);
         if (res) {
           setIsOpen(false);
+          fetchList();
         }
       });
     }
@@ -70,9 +72,12 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit }) => {
     }
   };
 
-  useEffect(() => {
+  const resetFields = () => {
     form.resetFields();
-    console.log("test");
+    setPreviewUrl("");
+  };
+  useEffect(() => {
+    resetFields();
     if (isOpen) {
       if (role.length === 0) {
         getRoleList();
