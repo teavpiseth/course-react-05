@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Input, Modal, Select } from "antd";
-import RoleService from "./RoleService";
+import RoleService from "./AccesskeyService";
 import { status } from "@/utils/constant";
 import moment from "moment";
 import LocalStorage from "@/utils/LocalStorage";
 import StringUtil from "@/utils/string";
 
-const AddNewEmployee = ({ isOpen, setIsOpen, dataEdit, fetchList }) => {
+const AddNewAccessKey = ({
+  isOpen,
+  setIsOpen,
+  dataEdit,
+  fetchList,
+  parentList,
+}) => {
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState([]);
@@ -23,7 +29,16 @@ const AddNewEmployee = ({ isOpen, setIsOpen, dataEdit, fetchList }) => {
     };
 
     if (isEdit) {
-      const data = StringUtil.pascalToCamel({ ...dataEdit, ..._value });
+      // const data = value;
+      const data = {};
+      for (const key in value) {
+        if (value[key] || value[key] === 0) {
+          data[key] = value[key];
+        }
+      }
+      data["id"] = form.getFieldValue("id");
+      console.log(form.getFieldValue("id"), form.getFieldValue());
+      // console.log(data, form.getFieldsValue());
       setIsLoading(true);
       RoleService.update(data).then((res) => {
         setIsLoading(false);
@@ -140,6 +155,17 @@ const AddNewEmployee = ({ isOpen, setIsOpen, dataEdit, fetchList }) => {
               })}
             </Select>
           </Form.Item>
+          <Form.Item label="Parent" name="parentId">
+            <Select showSearch placeholder="Select Status" allowClear>
+              {parentList?.map((obj) => {
+                return (
+                  <Select.Option key={obj.Id} value={obj.Id}>
+                    {obj.Name}
+                  </Select.Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
 
           <Form.Item
             wrapperCol={{
@@ -161,4 +187,4 @@ const AddNewEmployee = ({ isOpen, setIsOpen, dataEdit, fetchList }) => {
     </>
   );
 };
-export default AddNewEmployee;
+export default AddNewAccessKey;

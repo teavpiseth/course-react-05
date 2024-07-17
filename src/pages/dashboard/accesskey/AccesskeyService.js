@@ -1,14 +1,14 @@
 import baseService from "@/services/BaseService";
 
 const ApiUrl = {
-  getList: "role/get-list?",
+  getList: "access-key/get-list?",
   getRoleList: "role/get-list?",
-  create: "role/create",
-  update: "role/update",
-  delete: "role/delete",
+  create: "access-key/create",
+  update: "access-key/update",
+  delete: "access-key/delete",
 };
 
-class RoleService {
+class AccesskeyService {
   async getList(search) {
     // return console.log(param);
     const res = await baseService.get(ApiUrl.getList+"search="+search);
@@ -34,4 +34,4 @@ class RoleService {
   }
 }
 
-export default new RoleService();
+export default new AccesskeyService();

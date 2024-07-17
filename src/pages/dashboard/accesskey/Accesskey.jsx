@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { Button, Col, Row, Space, Table } from "antd";
-import { useRole } from "./hooks/useRole";
+import { Badge, Button, Col, Row, Space, Table } from "antd";
+import { useAccesskey } from "./hooks/useAccesskey";
 import moment from "moment";
 import StringUtil from "@/utils/string";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import useDebounce from "@/hooks/useDebound";
-import AddNewRole from "./AddNewRole";
-import { redirect } from "react-router";
+import AddNewAccessKey from "./AddNewAccessKey";
 const { Search } = Input;
 
-const Role = () => {
+const Accesskey = () => {
   const {
     data,
     gender,
@@ -19,7 +18,7 @@ const Role = () => {
     setIsOpenAddNew,
     deleteHandle,
     pagination,
-  } = useRole();
+  } = useAccesskey();
 
   const debounce = useDebounce();
 
@@ -34,11 +33,22 @@ const Role = () => {
       dataIndex: "Code",
       key: "Code",
     },
+    { title: "Parent Name", dataIndex: "ParentName", key: "ParentName" },
     {
       title: "Status",
       key: "Status",
       dataIndex: "Status",
-      render: (data) => <>{StringUtil.getNameStatus(data)}</>,
+      render: (data) => (
+        <>
+          {
+            <Badge
+              count={StringUtil.getNameStatus(data)}
+              showZero
+              color={data?.toString() === "1" ? "green" : "#faad14"}
+            />
+          }
+        </>
+      ),
     },
     {
       title: "Create At",
@@ -91,12 +101,13 @@ const Role = () => {
           </Button>
         </Col>
       </Row>
-      <AddNewRole
+      <AddNewAccessKey
         dataEdit={dataEdit}
         isOpen={isOpenAddNew}
         setIsOpen={setIsOpenAddNew}
         gender={gender.current}
         fetchList={fetchData}
+        parentList={data}
       />
 
       <Table
@@ -114,4 +125,4 @@ const Role = () => {
     </>
   );
 };
-export default React.memo(Role);
+export default React.memo(Accesskey);
