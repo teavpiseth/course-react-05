@@ -27,6 +27,7 @@ const items = [
     getItem("Product", "/dashboard/product/list"),
   ]),
   getItem("System", "/dashboard/system", <TeamOutlined />, [
+    getItem("Role List", "/dashboard/role-list"),
     getItem("Add Role Permission", "/dashboard/addRolePermission"),
     getItem("Access Key", "/dashboard/accesskey"),
   ]),

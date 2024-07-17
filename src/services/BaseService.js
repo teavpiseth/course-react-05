@@ -1,3 +1,4 @@
+import { BASE_API_URL } from "@/constant/URLRoutes";
 import LocalStorage from "@/utils/LocalStorage";
 import { message } from "antd";
 import axios from "axios";
@@ -5,6 +6,7 @@ import axios from "axios";
 class BaseService {
   async _sendRequest(method, url, data, extraHeaders, extraConfig) {
     const requestOption = {
+      baseURL: BASE_API_URL,
       method: method,
       url: url,
       data: data,
@@ -18,7 +20,7 @@ class BaseService {
       const response = await axios(requestOption);
       return response.data;
     } catch (error) {
-      message.error(error.message, [1]);
+      message.error(error?.response?.data?.errors?.msg || error.message, [1]);
     }
   }
   async get(url, data, extraHeaders, extraConfig) {

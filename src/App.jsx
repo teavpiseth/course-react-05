@@ -10,9 +10,9 @@ import MasterLayoutDashboard from "./master-layout-dashboard/MasterLayoutDashboa
 import Login from "./pages/login/Login";
 import Employee from "./pages/dashboard/employee/Employee";
 import "@/services/AxiosInterceptor";
+import Role from "./pages/dashboard/role/Role";
 
 function App() {
-  // console.log(<Login />);
   return (
     <>
       {/* <UseMemoComponent /> */}
@@ -31,6 +31,7 @@ function App() {
                 element={<div>Hello, welcome customer page</div>}
               />
               <Route path="/dashboard/employee" element={<Employee />} />
+              <Route path="/dashboard/role-list" element={<Role />} />
               <Route path="/dashboard/*" element={<PageNotFound />} />
             </Route>
 

@@ -11,7 +11,7 @@ const AddNewEmployee = ({ isOpen, setIsOpen, gender, dataEdit, fetchList }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [role, setRole] = useState([]);
 
-  const createBy = LocalStorage.getUser()?.id;
+  const createBy = LocalStorage.getUser()?.Id;
 
   const isEdit = Object.keys(dataEdit)?.length > 0;
 

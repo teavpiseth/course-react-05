@@ -1,17 +1,17 @@
 import baseService from "@/services/BaseService";
 
 const ApiUrl = {
-  getList: "employee/get-list?",
+  getList: "role/get-list?",
   getRoleList: "role/get-list?",
-  create: "employee/create",
+  create: "role/create",
   update: "employee/update",
   delete: "employee/delete",
 };
 
-class EmployeeService {
+class RoleService {
   async getList(param) {
     // return console.log(param);
-    const res = await baseService.get(ApiUrl.getList + param);
+    const res = await baseService.get(ApiUrl.getList);
     return res;
   }
   async getRoleList() {
@@ -19,9 +19,8 @@ class EmployeeService {
     return res;
   }
   async create(data) {
-    const res = await baseService.post(ApiUrl.create, data, {
-      "Content-Type": "multipart/form-data",
-    });
+    // return console.log(data);
+    const res = await baseService.post(ApiUrl.create, data);
     return res;
   }
 
@@ -37,4 +36,4 @@ class EmployeeService {
   }
 }
 
-export default new EmployeeService();
+export default new RoleService();
