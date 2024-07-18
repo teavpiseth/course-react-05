@@ -28,7 +28,7 @@ const items = [
   ]),
   getItem("System", "/dashboard/system", <TeamOutlined />, [
     getItem("Role List", "/dashboard/role-list"),
-    getItem("Add Role Permission", "/dashboard/addRolePermission"),
+    getItem("Add Role Permission", "/dashboard/add-role-permission"),
     getItem("Access Key", "/dashboard/accesskey"),
   ]),
   getItem("Logout", "/login", <FileOutlined />),
@@ -95,14 +95,14 @@ const MasterLayoutDashboard = React.memo(function MasterLayoutDashboard() {
             margin: "0 16px",
           }}
         >
-          <Breadcrumb
+          {/* <Breadcrumb
             style={{
               margin: "16px 0",
             }}
           >
             <Breadcrumb.Item>User</Breadcrumb.Item>
             <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+          </Breadcrumb> */}
           <div
             style={{
               padding: 24,

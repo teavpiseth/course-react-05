@@ -12,6 +12,7 @@ import Employee from "./pages/dashboard/employee/Employee";
 import "@/services/AxiosInterceptor";
 import Role from "./pages/dashboard/role/Role";
 import Accesskey from "./pages/dashboard/accesskey/Accesskey";
+import AddRolePermission from "./pages/dashboard/addRolePermission/AddRolePermission";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
               <Route path="/dashboard/employee" element={<Employee />} />
               <Route path="/dashboard/role-list" element={<Role />} />
               <Route path="/dashboard/accesskey" element={<Accesskey />} />
+              <Route
+                path="/dashboard/add-role-permission"
+                element={<AddRolePermission />}
+              />
               <Route path="/dashboard/*" element={<PageNotFound />} />
             </Route>
 
