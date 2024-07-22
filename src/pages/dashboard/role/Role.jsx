@@ -8,6 +8,7 @@ import { Input } from "antd";
 import useDebounce from "@/hooks/useDebound";
 import AddNewRole from "./AddNewRole";
 import { redirect } from "react-router";
+import { Link } from "react-router-dom";
 const { Search } = Input;
 
 const Role = () => {
@@ -51,6 +52,12 @@ const Role = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
+          <Link
+            to={`/dashboard/add-role-permission?id=${record.Id}&name=${record.Name}`}
+          >
+            <Button>Add Role Permission</Button>
+          </Link>
+
           <EditOutlined
             onClick={() => {
               setDataEdit(record);

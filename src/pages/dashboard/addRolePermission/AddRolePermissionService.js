@@ -4,14 +4,20 @@ const ApiUrl = {
   getList: "role/get-list?",
   listGroup: "access-key/get-list/group?",
   create: "role/create",
-  update: "role/update",
+  update: "role-access/update",
   delete: "role/delete",
+  roleAccess: "role-access/get-list?roleId=",
+  // role-access/get-list?roleId=25;
 };
 
 class AddRolePermissionService {
+  async getRoleAccess(roleId) {
+    const res = await baseService.get(ApiUrl.roleAccess + roleId);
+    return res;
+  }
   async getList(search) {
     // return console.log(param);
-    const res = await baseService.get(ApiUrl.getList+"search="+search);
+    const res = await baseService.get(ApiUrl.getList + "search=" + search);
     return res;
   }
   async getListGroup() {
@@ -25,7 +31,7 @@ class AddRolePermissionService {
   }
 
   async update(data) {
-    const res = await baseService.put(ApiUrl.update, data);
+    const res = await baseService.post(ApiUrl.update, data);
     return res;
   }
   async delete(id) {

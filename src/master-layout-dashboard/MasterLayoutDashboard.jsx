@@ -84,12 +84,10 @@ const MasterLayoutDashboard = React.memo(function MasterLayoutDashboard() {
         />
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
+        <div style={{ backgroundColor: "#f5f5f5", padding: "10px 20px" }}>
+          User Name: {LocalStorage.getUser().FirstName}{" "}
+          {LocalStorage.getUser().LastName}
+        </div>
         <Content
           style={{
             margin: "0 16px",
