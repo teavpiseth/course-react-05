@@ -13,6 +13,8 @@ import "@/services/AxiosInterceptor";
 import Role from "./pages/dashboard/role/Role";
 import Accesskey from "./pages/dashboard/accesskey/Accesskey";
 import AddRolePermission from "./pages/dashboard/addRolePermission/AddRolePermission";
+import PrivateRoute from "./PrivateRoute";
+import Customer from "./pages/dashboard/customer";
 
 function App() {
   return (
@@ -30,9 +32,17 @@ function App() {
               />
               <Route
                 path="/dashboard/customer"
-                element={<div>Hello, welcome customer page</div>}
+                element={
+                  <PrivateRoute authorityKey="customer" component={Customer} />
+                }
               />
-              <Route path="/dashboard/employee" element={<Employee />} />
+
+              <Route
+                path="/dashboard/employee"
+                element={
+                  <PrivateRoute authorityKey="employee" component={Employee} />
+                }
+              />
               <Route path="/dashboard/role-list" element={<Role />} />
               <Route path="/dashboard/accesskey" element={<Accesskey />} />
               <Route

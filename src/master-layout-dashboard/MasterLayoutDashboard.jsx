@@ -58,7 +58,7 @@ const MasterLayoutDashboard = React.memo(function MasterLayoutDashboard() {
 
   function onChangeMenuHandle(value) {
     if (value.key?.includes("login")) {
-      LocalStorage.clearUser();
+      localStorage.clear();
     }
     navigate(value.key);
   }

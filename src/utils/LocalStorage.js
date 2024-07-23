@@ -6,7 +6,12 @@ class LocalStorage {
       this.setAccessToken(data.accessToken);
       this.setExpiredIn(data.expiredIn);
       this.setRefreshToken(data.refreshToken);
+      this.setAuthority(data.role);
     }
+  }
+
+  setAuthority(data) {
+    localStorage.setItem("authority", JSON.stringify(data) || "");
   }
 
   setExpiredIn(value) {

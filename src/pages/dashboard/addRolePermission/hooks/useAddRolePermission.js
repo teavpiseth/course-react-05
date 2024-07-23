@@ -1,13 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 
 import AddRolePermissionService from "../AddRolePermissionService";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import LocalStorage from "@/utils/LocalStorage";
 
 export function useAddRolePermission() {
   // const data = [];
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const name = searchParams.get("name");
+
+  if (!id) {
+    navigate("/dashboard/role-list");
+  }
   const [listGroup, setListGroup] = useState([]);
   const [roleAccess, setRoleAccess] = useState([]);
   const [list, setList] = useState([]);
@@ -15,7 +21,15 @@ export function useAddRolePermission() {
   const fetchData = async () => {
     const result_role_access = await AddRolePermissionService.getRoleAccess(id);
     if (result_role_access) {
-      setRoleAccess(result_role_access.list);
+      setRoleAccess(
+        result_role_access.list?.map((item) => ({
+          ...item,
+          roleAccessId: item.Id,
+        }))
+      );
+      LocalStorage.setAuthority(
+        result_role_access?.list?.map((item) => item.Code)
+      );
     }
     const res = await AddRolePermissionService.getListGroup();
     if (res) {
